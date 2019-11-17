@@ -335,3 +335,6 @@ function totalLength3<T extends IHaveLengthAndSlice<T>> (x: T,y: T): number {
     }
     return total;
 }
+
+//Namespaces... in model.ts
+
