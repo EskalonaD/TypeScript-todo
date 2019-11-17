@@ -218,3 +218,62 @@ var TodoService2 = /** @class */ (function () {
     TodoService2.lastId = 0;
     return TodoService2;
 }());
+//Generics
+function clone(value) {
+    var serialized = JSON.stringify(value);
+    return JSON.parse(serialized);
+}
+var a = clone('hello');
+var b = a.slice(1);
+var c = clone(1);
+var d = clone(function (x) { return 2; });
+var t = clone(function (x) { return x + 2; });
+var s = function (x) { return x + 2; };
+var KeyValuePair = /** @class */ (function () {
+    function KeyValuePair(key, value) {
+        this.key = key;
+        this.value = value;
+    }
+    return KeyValuePair;
+}());
+var pair1 = new KeyValuePair('1', 20);
+var pair2 = new KeyValuePair(1, '20');
+var pair3 = new KeyValuePair(1, function (X) { return 1; });
+var pair4 = new KeyValuePair('hi', 45);
+var KeyValuePairPrineter = /** @class */ (function () {
+    function KeyValuePairPrineter(pairs) {
+        this.pairs = pairs;
+    }
+    KeyValuePairPrineter.prototype.print = function () {
+        for (var _i = 0, _a = this.pairs; _i < _a.length; _i++) {
+            var p = _a[_i];
+            console.log(p.key + ": " + p.value);
+        }
+    };
+    return KeyValuePairPrineter;
+}());
+var printer = new KeyValuePairPrineter([pair1, pair4]);
+printer.print();
+// Generic Constrains
+function totalLength2(x, y) {
+    var total = x.length + y.length;
+    x.slice(0);
+    if (x instanceof Array) {
+        x.push(1);
+    }
+    if (x instanceof String) {
+        x.substr(1);
+    }
+    return total;
+}
+function totalLength3(x, y) {
+    var total = x.length + y.length;
+    x.slice(0);
+    if (x instanceof Array) {
+        x.push(1);
+    }
+    if (x instanceof String) {
+        x.substr(1);
+    }
+    return total;
+}

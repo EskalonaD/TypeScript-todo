@@ -256,4 +256,82 @@ class TodoService2 implements ITodoService {
 }
 
 
+//Generics
 
+function clone<T>(value: T): T {
+    let serialized = JSON.stringify(value);
+    return <T>JSON.parse(serialized);
+}
+
+
+let a = clone('hello');
+let b = a.slice(1);
+let c = clone(1);
+let d = clone(x=>2)
+var t = clone(function (x: number):number { return x + 2; });
+var s = function (x: number):number { return x + 2; };
+
+
+class KeyValuePair<Tkey, Tvalue>  {
+
+    constructor(
+        public key: Tkey,
+        public value: Tvalue
+    ) {}
+}
+
+let pair1 = new KeyValuePair('1', 20)
+let pair2 = new KeyValuePair(1,'20')
+let pair3 = new KeyValuePair<number, Function>(1,X=>1);
+let pair4 = new KeyValuePair('hi', 45);
+
+class KeyValuePairPrineter<T, U> {
+    constructor(
+        private pairs: KeyValuePair<T,U>[]
+    ){}
+
+    print() {
+        for (let p of this.pairs) {
+            console.log(`${p.key}: ${p.value}`)
+        } 
+    }
+}
+
+let printer = new KeyValuePairPrineter([pair1, pair4]);
+printer.print();
+
+// Generic Constrains
+
+function totalLength2<T extends {length: number, slice(number):T}> (x: T,y: T): number {
+    let total: number = x.length + y.length;
+    x.slice(0);
+    if(x instanceof Array) {
+
+        x.push(1);
+    }
+
+    if( x instanceof String){
+
+        x.substr(1)
+    }
+    return total;
+}
+
+ interface IHaveLengthAndSlice<K> {
+    length: number, slice(number):K
+}
+
+function totalLength3<T extends IHaveLengthAndSlice<T>> (x: T,y: T): number {
+    let total: number = x.length + y.length;
+    x.slice(0);
+    if(x instanceof Array) {
+
+        x.push(1);
+    }
+
+    if( x instanceof String){
+
+        x.substr(1)
+    }
+    return total;
+}
