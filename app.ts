@@ -37,26 +37,9 @@ function totalLength (x: (any[] | string),y: (any[] |string)): number {
     // Custom Types
     
 }
-interface Todo {
-    name: string;
-    state: TodoState;
-}
-
-
-interface ITodoService {
-    getById( todoId: number): Todo;
-    getAll(): Todo[];
-    delete(todoId:number): void;
-    add(todo: Todo): Todo;
-}
-enum TodoState {
-    New = 1,
-    Active,
-    Complete,
-    Deleted
-}
 
 var todo: Todo = {
+    id: 1,
     name: '1',
     state: TodoState.New,
 }
@@ -133,6 +116,7 @@ class TodoService {
 // Smart properties with accessors
 
 var todo1:Todo = {
+    id: 15,
     name: 'learn TS',
     get state() {
         return this._state
@@ -228,3 +212,48 @@ class TodoService1 {
         return TodoService.lastId++;
     }
 }
+
+
+// implementing interfaces
+
+class TodoService2 implements ITodoService {
+
+    private static lastId: number = 0;
+
+    constructor(private todos: Todo[]) { // access modifier
+    }
+
+    add(todo: Todo) {
+        todo.id = this.nextId;
+        this.todos.push(todo);
+        return todo;
+    }
+
+    getAll(): Todo[] {
+        return [...this.todos];
+    }
+
+    getById(id: number): Todo {
+        if(this.todos instanceof Array) {
+
+            return this.todos.find(el => el.id === id) || null;
+        }
+    }
+
+    delete(todoId: number): void {
+        this.todos = this.todos.filter(el => el.id !== todoId);
+    }
+
+    protected set nextId(nextId) { //must be the same as getter access modifier
+        TodoService2.lastId = nextId - 1;
+    }
+    protected get nextId() {
+        return TodoService2.getNextId();
+    }
+    static getNextId() {
+        return TodoService2.lastId++;
+    }
+}
+
+
+

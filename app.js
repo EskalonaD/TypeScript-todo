@@ -12,6 +12,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 var animal = {
     name: 'fido',
     species: 'dog',
@@ -37,14 +44,8 @@ function totalLength(x, y) {
 {
     // Custom Types
 }
-var TodoState;
-(function (TodoState) {
-    TodoState[TodoState["New"] = 1] = "New";
-    TodoState[TodoState["Active"] = 2] = "Active";
-    TodoState[TodoState["Complete"] = 3] = "Complete";
-    TodoState[TodoState["Deleted"] = 4] = "Deleted";
-})(TodoState || (TodoState = {}));
 var todo = {
+    id: 1,
     name: '1',
     state: TodoState.New,
 };
@@ -91,6 +92,7 @@ var TodoService = /** @class */ (function () {
 }());
 // Smart properties with accessors
 var todo1 = {
+    id: 15,
     name: 'learn TS',
     get state() {
         return this._state;
@@ -178,4 +180,41 @@ var TodoService1 = /** @class */ (function () {
     };
     TodoService1.lastId = 0;
     return TodoService1;
+}());
+// implementing interfaces
+var TodoService2 = /** @class */ (function () {
+    function TodoService2(todos) {
+        this.todos = todos;
+    }
+    TodoService2.prototype.add = function (todo) {
+        todo.id = this.nextId;
+        this.todos.push(todo);
+        return todo;
+    };
+    TodoService2.prototype.getAll = function () {
+        return __spreadArrays(this.todos);
+    };
+    TodoService2.prototype.getById = function (id) {
+        if (this.todos instanceof Array) {
+            return this.todos.find(function (el) { return el.id === id; }) || null;
+        }
+    };
+    TodoService2.prototype.delete = function (todoId) {
+        this.todos = this.todos.filter(function (el) { return el.id !== todoId; });
+    };
+    Object.defineProperty(TodoService2.prototype, "nextId", {
+        get: function () {
+            return TodoService2.getNextId();
+        },
+        set: function (nextId) {
+            TodoService2.lastId = nextId - 1;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TodoService2.getNextId = function () {
+        return TodoService2.lastId++;
+    };
+    TodoService2.lastId = 0;
+    return TodoService2;
 }());
