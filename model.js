@@ -1,9 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var TodoState;
-(function (TodoState) {
-    TodoState[TodoState["New"] = 1] = "New";
-    TodoState[TodoState["Active"] = 2] = "Active";
-    TodoState[TodoState["Complete"] = 3] = "Complete";
-    TodoState[TodoState["Deleted"] = 4] = "Deleted";
-})(TodoState = exports.TodoState || (exports.TodoState = {}));
+var TodoStatus;
+(function (TodoStatus) {
+    TodoStatus[TodoStatus["New"] = 1] = "New";
+    TodoStatus[TodoStatus["Active"] = 2] = "Active";
+    TodoStatus[TodoStatus["Complete"] = 3] = "Complete";
+    TodoStatus[TodoStatus["Deleted"] = 4] = "Deleted";
+})(TodoStatus || (TodoStatus = {}));

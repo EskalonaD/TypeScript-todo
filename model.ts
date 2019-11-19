@@ -1,12 +1,12 @@
-export interface Todo {
-    id: number;
-    name: string;
-    state: TodoState;
+interface Todo {
+    id: number,
+    name: string,
+    state: number,
 }
 
-export enum TodoState {
+enum TodoStatus {
     New = 1,
     Active,
     Complete,
     Deleted
-}
+} 
