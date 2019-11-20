@@ -12,7 +12,6 @@ enum TodoStatus {
 }
  
 interface ITodoService {
-    todos: Todo[];
     add(T: number | Todo): Todo;
     clearCompleted(): void;
     getAll(): Todo[];

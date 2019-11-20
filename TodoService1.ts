@@ -1,12 +1,3 @@
-interface ITodoService {
-    todos: Todo[];
-    add(T: number | Todo): Todo;
-    clearCompleted(): void;
-    getAll(): Todo[];
-    getById(id: number): Todo;
-    toggle(id: number): void;
-}
-
 class TodoService implements ITodoService {
     private static _lastId = 0;
     
@@ -14,14 +5,15 @@ class TodoService implements ITodoService {
         return TodoService._lastId++;
     };
     
-    private clone(src) {
+    private clone<t>(src: t):t {
         const clone = JSON.stringify(src);
         return JSON.parse(clone);
 
     }
     
     
-    todos: Todo[];
+    private todos: Todo[] = [];
+
     constructor(todos: [] = []){
         todos.forEach(todo => this.add(todo))
     }
@@ -78,8 +70,8 @@ class TodoService implements ITodoService {
         const todo = this._find(todoId);
 
         if (todo) {
-            todo.state =  todo.state === 1 ? 2 
-                : todo.state === 2 ? 1
+            todo.state =  todo.state === TodoStatus.New ? TodoStatus.Active
+                : todo.state === TodoStatus.Active ? TodoStatus.New
                 : todo.state;
         }
     }
