@@ -1,98 +1,64 @@
-var TodoService = (function () {
-
-    var _lastId = 0;
-
-    function generateTodoId() {
-        return _lastId += 1;
+var TodoService = /** @class */ (function () {
+    function TodoService(todos) {
+        var _this = this;
+        if (todos === void 0) { todos = []; }
+        this.todos = [];
+        todos.forEach(function (todo) { return _this.add(todo); });
     }
-    
-    function clone(src) {
+    TodoService.generateTodoId = function () {
+        return TodoService._lastId++;
+    };
+    ;
+    TodoService.prototype.clone = function (src) {
         var clone = JSON.stringify(src);
         return JSON.parse(clone);
     };
-
-
-    function TodoService(todos) {
-        var _this = this;
-        
-        this.todos = [];
-        
-        if(todos) {
-            todos.forEach(function(todo) {
-              _this.add(todo);  
-            })
-        }
-    }
-
-    // Accepts a todo name or todo object
-    TodoService.prototype.add = function (input) {
-
-        var todo = {
-            id: generateTodoId(),
-            name: null,
-            state: 1
+    TodoService.prototype.createTodo = function (name) {
+        return {
+            id: TodoService.generateTodoId(),
+            name: name,
+            state: TodoStatus.New,
         };
-
-        if(typeof input === 'string') {
-            todo.name = input;
-        } 
-        else if(typeof input.name === 'string') {
-            todo.name = input.name;
-        } else {
-            throw 'Invalid Todo name!';
+    };
+    TodoService.prototype.add = function (input) {
+        var name;
+        if (typeof input === 'string') {
+            name = input;
         }
-
+        else if (typeof input.name === 'string') {
+            name = input.name;
+        }
+        var todo = this.createTodo(name);
         this.todos.push(todo);
-
         return todo;
     };
-
-
     TodoService.prototype.clearCompleted = function () {
-       
-        this.todos = this.todos.filter(function(x) { 
-            return x.state == 1; 
-        });
-    }
-    
-
+        this.todos = this.todos.filter(function (el) { return el.state === TodoStatus.New; });
+    };
     TodoService.prototype.getAll = function () {
-        return clone(this.todos);
+        return this.clone(this.todos);
     };
-
-
-    TodoService.prototype.getById = function (todoId) {
-        var todo = this._find(todoId);
-        return clone(todo);
-    };
-    
-    TodoService.prototype.toggle = function (todoId) {
-
-        var todo = this._find(todoId);
-        
-        if(!todo) return;
-        
-        switch(todo.state) {
-            case 1:
-                todo.state = 2;
-                break;
-            case 2:
-                todo.state = 1;
-                break;
-        }
-    }
-
     TodoService.prototype._find = function (todoId) {
-        var filtered = this.todos.filter(function (x) { 
-            return x.id == todoId; 
+        var filtered = this.todos.filter(function (x) {
+            return x.id == todoId;
         });
-        
         if (filtered.length) {
             return filtered[0];
         }
-        
         return null;
-    }
-    
+    };
+    TodoService.prototype.getById = function (todoId) {
+        var todo = this._find(todoId);
+        return this.clone(todo);
+    };
+    TodoService.prototype.toggle = function (todoId) {
+        var todo = this._find(todoId);
+        if (todo) {
+            todo.state = todo.state === TodoStatus.New ? TodoStatus.Active
+                : todo.state === TodoStatus.Active ? TodoStatus.New
+                    : todo.state;
+        }
+    };
+    TodoService._lastId = 0;
     return TodoService;
-})();
+}());

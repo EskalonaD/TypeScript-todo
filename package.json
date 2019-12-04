@@ -1,7 +1,7 @@
 {
   "name": "typescript-todo",
   "version": "1.0.0",
-  "description": "mastering )\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C(\u001b[2~m\u001b[2~astering typescript)",
+  "description": "mastering typescript",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/EskalonaD/TypeScript-todo#readme",
   "dependencies": {
+    "@types/jquery": "^3.3.31",
     "typescript": "^3.7.2"
   }
 }
